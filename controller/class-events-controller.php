@@ -57,11 +57,14 @@ class Events_Controller implements Custom_Post_Type {
         create_taxonomies();
         save_post();
 
+        create_table();
+
         flush_rewrite_rules();
     }
 
     public function deactivate() {
         unregister_post_type( self::POST_TYPE_SLUG );
+        drop_table();
 
         flush_rewrite_rules();
     }

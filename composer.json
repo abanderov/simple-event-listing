@@ -1,0 +1,21 @@
+{
+    "name": "a_banderov/simple-events-listing",
+    "description": "Simple events listing plugin for WordPress",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Aleksandar Banderov",
+            "email": "a_banderov@protonmail.com"
+        }
+    ],
+    "require": {
+        "league/plates": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "SEL\\": "src/",
+            "SEL\\Controller\\": "src/controller",
+            "SEL\\Model\\": "src/model"
+        }
+    }
+}

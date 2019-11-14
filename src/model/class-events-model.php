@@ -2,6 +2,8 @@
 
 declare( strict_types = 1 );
 
+namespace SEL\Model;
+
 class Events_Model {
 
     public static function create_table() {
@@ -15,7 +17,7 @@ class Events_Model {
                     event_date DATE NOT NULL,
                     event_link varchar(255) NOT NULL,
                     PRIMARY KEY  (id)
-                )';
+                )COLLATE="utf8_general_ci"';
 
         dbDelta($sql);
     }
@@ -35,5 +37,5 @@ class Events_Model {
 
     }
 
-    
+
 }

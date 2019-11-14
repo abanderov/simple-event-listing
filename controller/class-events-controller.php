@@ -8,7 +8,7 @@ class Events_Controller implements Custom_Post_Type {
 	const POST_TYPE_SLUG    = 'sel-event'; //add prefix in order to avoid conflict with other plugins adding events as a custom post type
 	const TAG_NAME          = 'Event';
 	const TAG_SLUG          = 'sel-event'; //the same reason applies here as well
-    const PLUGIN_TEXTDOMAIN = dirname( __FILE__ ) ) . '/languages';
+    const PLUGIN_TEXTDOMAIN =  SEL_ROOT . '/languages';
 
     protected function __construct() {
         $this->register_hooks();
@@ -26,7 +26,7 @@ class Events_Controller implements Custom_Post_Type {
 
     public static function create_taxonomies() {
         if ( ! taxonomy_exists( self::TAG_SLUG ) ) {
-            $taxonomy_args   = self:get_taxonomy_args();
+            $taxonomy_args = self::get_taxonomy_args();
             register_taxonomy( self::TAG_SLUG, self::POST_TYPE_SLUG, $taxonomy_args );
         }
     }

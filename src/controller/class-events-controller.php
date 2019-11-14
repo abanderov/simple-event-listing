@@ -38,6 +38,8 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             add_action( 'add_meta_boxes', __CLASS__ . '::add_metaboxes' );
             add_action( 'save_post', __CLASS__ . '::save_location_meta_box_data' );
             add_action( 'save_post', __CLASS__ . '::save_date_meta_box_data' );
+            add_filter( 'single_template', __CLASS__ . '::load_custom_template_single_post' );
+            add_filter( 'archive_template', __CLASS__ . '::load_custom_template_single_archive' );
         }
 
         public function activate() {
@@ -173,6 +175,30 @@ if ( ! class_exists( 'Events_Controller' ) ) {
 
         public static function add_styles() {
             wp_enqueue_style( 'jquery-ui', plugin_dir_url( SEL_FILE ) . '/assets/css/jquery-ui.css' );
+        }
+
+        public static function load_custom_template_single_post( $single ) {
+            global $post;
+
+            if ( $post->post_type == self::POST_TYPE_SLUG ) {
+               if ( file_exists( SEL_ROOT . '/view/templates/single-sel-event.php' ) ) {
+                   return SEL_ROOT . '/view/templates/single-sel-event.php';
+               }
+            }
+
+            return $single;
+
+        }
+
+        public static function load_custom_template_single_archive( $archive_template ) {
+             global $post;
+
+             if ( is_post_type_archive ( self::POST_TYPE_SLUG ) ) {
+                 if ( file_exists( SEL_ROOT . '/view/templates/archive-sel-event.php' ) ) {
+                     return SEL_ROOT . '/view/templates/archive-sel-event.php';
+                 }
+             }
+             return $archive_template;
         }
 
         protected static function get_post_type_args() {

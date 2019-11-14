@@ -12,7 +12,11 @@ class Events_Controller {
 	const POST_TYPE_SLUG    = 'sel-event'; //add prefix in order to avoid conflict with other plugins adding events as a custom post type
 	const TAG_NAME          = 'Event';
 	const TAG_SLUG          = 'sel-event'; //the same reason applies here as well
+<<<<<<< HEAD:src/controller/class-events-controller.php
     //const PLUGIN_TEXTDOMAIN =  SEL_DIR . '/languages';
+=======
+    const PLUGIN_TEXTDOMAIN =  SEL_ROOT . '/languages';
+>>>>>>> a395fd42e5a89c43c3da7f843ad687ace8b43065:controller/class-events-controller.php
 
     public function __construct() {
         self::register_hooks();

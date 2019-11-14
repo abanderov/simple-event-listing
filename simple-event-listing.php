@@ -51,7 +51,6 @@ if ( requirements_are_met() ) {
 
     $sel = new Events_Controller();
 
-
 } else {
     add_action( 'admin_notices', 'requirements_not_met' );
 }

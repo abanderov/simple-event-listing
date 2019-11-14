@@ -45,11 +45,12 @@ function requirements_not_met() {
 
 if ( requirements_are_met() ) {
     require_once( SEL_DIR . '/vendor/autoload.php');
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php'); // because dbDelta() is used in the model;
-    require_once( SEL_ROOT . '/model/class-events-model.php');
+    // require_once( ABSPATH . 'wp-admin/includes/upgrade.php'); // because dbDelta() is used in the model;
+    // require_once( SEL_ROOT . '/model/class-events-model.php');
     require_once( SEL_ROOT . '/controller/class-events-controller.php');
 
     $sel = new Events_Controller();
+
 
 } else {
     add_action( 'admin_notices', 'requirements_not_met' );

@@ -12,11 +12,7 @@ class Events_Controller {
 	const POST_TYPE_SLUG    = 'sel-event'; //add prefix in order to avoid conflict with other plugins adding events as a custom post type
 	const TAG_NAME          = 'Event';
 	const TAG_SLUG          = 'sel-event'; //the same reason applies here as well
-<<<<<<< HEAD:src/controller/class-events-controller.php
     //const PLUGIN_TEXTDOMAIN =  SEL_DIR . '/languages';
-=======
-    const PLUGIN_TEXTDOMAIN =  SEL_ROOT . '/languages';
->>>>>>> a395fd42e5a89c43c3da7f843ad687ace8b43065:controller/class-events-controller.php
 
     public function __construct() {
         self::register_hooks();
@@ -67,7 +63,7 @@ class Events_Controller {
         $this->create_post_type();
         $this->create_taxonomies();
 
-        Events_Model::create_table();
+        // Events_Model::create_table();
 
         flush_rewrite_rules();
     }
@@ -75,7 +71,7 @@ class Events_Controller {
     public function deactivate() {
         unregister_post_type( self::POST_TYPE_SLUG );
 
-        Events_Model::drop_table();
+        // Events_Model::drop_table();
 
         flush_rewrite_rules();
     }
@@ -122,8 +118,8 @@ class Events_Controller {
     protected static function get_taxonomy_args() {
 
         $tag_taxonomy_params = array(
-            'label'                 => self::TAG_NAME,
-            'labels'                => array( 'name' => self::TAG_NAME, 'singular_name' => self::TAG_NAME ),
+            'label'                 => self::TAG_NAME . 's\' tags',
+            'labels'                => array( 'name' => self::TAG_NAME . 's\' tags', 'singular_name' => self::TAG_NAME . 'tag'),
             'hierarchical'          => true,
             'rewrite'               => false,
             'update_count_callback' => '_update_post_term_count'

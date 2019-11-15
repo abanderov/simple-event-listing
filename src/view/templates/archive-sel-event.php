@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Simpe Event Listing Archives
+Template Name: Simpe Event Listing Single Event
 */
 get_header();
 ?>
@@ -8,38 +8,31 @@ get_header();
 	<section id="primary" class="content-area">
 		<main id="main" class="site-main">
 
-		<?php if ( have_posts() ) : ?>
-
-			<header class="page-header">
-				<?php
-					the_archive_title( '<h1 class="page-title">', '</h1>' );
-				?>
-			</header><!-- .page-header -->
-
 			<?php
-			// Start the Loop.
+
+			/* Start the Loop */
 			while ( have_posts() ) :
 				the_post();
 
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content/content', 'excerpt' );
+				include_once( SEL_ROOT . '/view/templates/parts/content-single.php' );
 
-				// End the loop.
-			endwhile;
+				if ( is_singular( 'sel-event' ) ) {
+					// Previous/next post navigation.
+					the_post_navigation(
+						array(
+							'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next Post', 'twentynineteen' ) . '</span> ' .
+								'<span class="screen-reader-text">' . __( 'Next post:', 'twentynineteen' ) . '</span> <br/>' .
+								'<span class="post-title">%title</span>',
+							'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous Post', 'twentynineteen' ) . '</span> ' .
+								'<span class="screen-reader-text">' . __( 'Previous post:', 'twentynineteen' ) . '</span> <br/>' .
+								'<span class="post-title">%title</span>',
+						)
+					);
+				}
 
-			// Previous/next page navigation.
-			twentynineteen_the_posts_navigation();
+			endwhile; // End of the loop.
+			?>
 
-			// If no content, include the "No posts found" template.
-		else :
-			get_template_part( 'template-parts/content/content', 'none' );
-
-		endif;
-		?>
 		</main><!-- #main -->
 	</section><!-- #primary -->
 

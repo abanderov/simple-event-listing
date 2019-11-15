@@ -14,17 +14,9 @@ get_header();
 			while ( have_posts() ) :
 				the_post();
 
-				get_template_part( 'template-parts/content/content', 'single' );
+				include_once( SEL_ROOT . '/view/templates/parts/content-single.php' );
 
-				if ( is_singular( 'attachment' ) ) {
-					// Parent post navigation.
-					the_post_navigation(
-						array(
-							/* translators: %s: parent post link */
-							'prev_text' => sprintf( __( '<span class="meta-nav">Published in</span><span class="post-title">%s</span>', 'twentynineteen' ), '%title' ),
-						)
-					);
-				} elseif ( is_singular( 'post' ) ) {
+				if ( is_singular( 'sel-event' ) ) {
 					// Previous/next post navigation.
 					the_post_navigation(
 						array(

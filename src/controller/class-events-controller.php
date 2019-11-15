@@ -125,7 +125,8 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             $date_data = array(
                 'sel_to' => ! empty( $_POST['sel_to']) ? sanitize_text_field( $_POST['sel_to'] ) : '',
                 'sel_from' => ! empty( $_POST['sel_from']) ? sanitize_text_field( $_POST['sel_from'] ) : '',
-                'sel_time' => ! empty( $_POST['sel_time']) ? sanitize_text_field( $_POST['sel_time'] ) : '',
+                'sel_start_time' => ! empty( $_POST['sel_start_time']) ? sanitize_text_field( $_POST['sel_start_time'] ) : '',
+                'sel_end_time' => ! empty( $_POST['sel_end_time']) ? sanitize_text_field( $_POST['sel_end_time'] ) : '',
             );
 
             update_post_meta( $post_id, '_sel_date', $date_data );
@@ -222,33 +223,9 @@ if ( ! class_exists( 'Events_Controller' ) ) {
         public static function load_custom_template_single_post( $single ) {
             global $post;
 
-            $location_value = get_post_meta( get_the_ID(), '_sel_location', true );
-      			$date_value = get_post_meta( get_the_ID(), '_sel_date', true );
-      			$url_value = get_post_meta( get_the_ID(), '_sel_ext_url', true );
-
-            if ( empty ( $date_value['sel_to'] ) ) {
-              $start_date_to_time = strtotime($date_value['sel_from'] . ! empty( $date_value['sel_time'] ) ? $date_value['sel_time'] : '');
-            } else {
-              $start_date_to_time = strtotime($date_value['sel_from'] . ! empty( $date_value['sel_time'] ) ? $date_value['sel_time'] : '');
-              $end_date_to_time = strtotime($date_value['sel_to'] . ! empty( $date_value['sel_time'] ) ? $date_value['sel_time'] : '');
-            }
-
-            $some_time = strtotime('21-11-2019' . '12:30');
-            echo date('d F, Y h:i:s', $some_time);;
-            // $calendar_url =
-            //     'http://www.google.com/calendar/event?action=TEMPLATE'.
-            //     '&text='.$post['post_title'].
-            //     '&dates=' .'/'. $event_detail['datetime_end'].
-            //     '&location='.$event_detail['location'].
-            //     '&details='.$event_detail['details'].
-            //     '&trp=false'.
-            //     '&sprop=website:www.someurl.com'.
-            //     '&sprop=name:Name'
-            // ;
-
             if ( $post->post_type == self::POST_TYPE_SLUG ) {
                if ( file_exists( SEL_ROOT . '/view/templates/single-sel-event.php' ) ) {
-                   return include_once ( SEL_ROOT . '/view/templates/single-sel-event.php' ) ;
+                    return ( SEL_ROOT . '/view/templates/single-sel-event.php' );
                }
             }
 

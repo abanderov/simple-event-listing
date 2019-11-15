@@ -9,9 +9,9 @@ if ( ! class_exists( 'Events_Controller' ) ) {
     class Events_Controller {
 
         const POST_TYPE_NAME    = 'Event';
-    	const POST_TYPE_SLUG    = 'sel-event'; //add prefix in order to avoid conflict with other plugins adding events as a custom post type
-    	const TAG_NAME          = 'Event';
-    	const TAG_SLUG          = 'sel-event'; //the same reason applies here as well
+      	const POST_TYPE_SLUG    = 'sel-event'; //add prefix in order to avoid conflict with other plugins adding events as a custom post type
+      	const TAG_NAME          = 'Event';
+      	const TAG_SLUG          = 'sel-event'; //the same reason applies here as well
         //const PLUGIN_TEXTDOMAIN =  SEL_DIR . '/languages';
 
         private static $instance;
@@ -38,6 +38,7 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             add_action( 'add_meta_boxes', __CLASS__ . '::add_metaboxes' );
             add_action( 'save_post', __CLASS__ . '::save_location_meta_box_data' );
             add_action( 'save_post', __CLASS__ . '::save_date_meta_box_data' );
+            add_action( 'save_post', __CLASS__ . '::save_ext_url_meta_box_data' );
             add_filter( 'single_template', __CLASS__ . '::load_custom_template_single_post' );
             add_filter( 'archive_template', __CLASS__ . '::load_custom_template_single_archive' );
         }
@@ -130,11 +131,36 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             update_post_meta( $post_id, '_sel_date', $date_data );
         }
 
+        public static function save_ext_url_meta_box_data( $post_id ) {
+
+            if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+                return;
+            }
+
+            if ( ! empty( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
+
+                if ( ! current_user_can( 'edit_page', $post_id ) ) {
+                    return;
+                }
+
+            }
+            else {
+
+                if ( ! current_user_can( 'edit_post', $post_id ) ) {
+                    return;
+                }
+            }
+
+            $ext_url_data = ! empty( $_POST['sel_ext_url'] ) ? sanitize_text_field( $_POST['sel_ext_url'] ) : '';
+
+            update_post_meta( $post_id, '_sel_ext_url', $ext_url_data );
+        }
+
         public static function add_metaboxes( $post_type ) {
             $post_types = array( 'sel-event' );
 
             if ( in_array( $post_type, $post_types ) ) {
-                //Adds Google Maps Meta Box
+                //Add Google Maps Meta Box
                 add_meta_box(
                     'sel_location',
                     __( 'Location', 'textdomain' ),
@@ -144,11 +170,21 @@ if ( ! class_exists( 'Events_Controller' ) ) {
                     'default'
                 );
 
-                //Adds DatePicker Meta Box
+                //Add DatePicker Meta Box
                 add_meta_box(
                     'sel_date',
                     __( 'Date', 'textdomain' ),
                     array( __CLASS__, 'render_meta_box_date' ),
+                    $post_type,
+                    'side',
+                    'default'
+                );
+
+                //Add External URL Meta Box
+                add_meta_box(
+                    'sel_ext_url',
+                    __( 'External URL', 'textdomain' ),
+                    array( __CLASS__, 'render_meta_box_ext_url' ),
                     $post_type,
                     'side',
                     'default'
@@ -169,6 +205,12 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             require_once( SEL_ROOT . '/view/metaboxes/event-date.php');
         }
 
+        public static function render_meta_box_ext_url() {
+            $ext_url_data = get_post_meta( get_the_ID(), '_sel_ext_url', true );
+
+            require_once( SEL_ROOT . '/view/metaboxes/event-ext-url.php');
+        }
+
         public static function add_scripts() {
             wp_enqueue_script( 'jquery-ui', plugin_dir_url( SEL_FILE ) .  '/assets/js/jquery-ui.js');
         }
@@ -180,9 +222,33 @@ if ( ! class_exists( 'Events_Controller' ) ) {
         public static function load_custom_template_single_post( $single ) {
             global $post;
 
+            $location_value = get_post_meta( get_the_ID(), '_sel_location', true );
+      			$date_value = get_post_meta( get_the_ID(), '_sel_date', true );
+      			$url_value = get_post_meta( get_the_ID(), '_sel_ext_url', true );
+
+            if ( empty ( $date_value['sel_to'] ) ) {
+              $start_date_to_time = strtotime($date_value['sel_from'] . ! empty( $date_value['sel_time'] ) ? $date_value['sel_time'] : '');
+            } else {
+              $start_date_to_time = strtotime($date_value['sel_from'] . ! empty( $date_value['sel_time'] ) ? $date_value['sel_time'] : '');
+              $end_date_to_time = strtotime($date_value['sel_to'] . ! empty( $date_value['sel_time'] ) ? $date_value['sel_time'] : '');
+            }
+
+            $some_time = strtotime('21-11-2019' . '12:30');
+            echo date('d F, Y h:i:s', $some_time);;
+            // $calendar_url =
+            //     'http://www.google.com/calendar/event?action=TEMPLATE'.
+            //     '&text='.$post['post_title'].
+            //     '&dates=' .'/'. $event_detail['datetime_end'].
+            //     '&location='.$event_detail['location'].
+            //     '&details='.$event_detail['details'].
+            //     '&trp=false'.
+            //     '&sprop=website:www.someurl.com'.
+            //     '&sprop=name:Name'
+            // ;
+
             if ( $post->post_type == self::POST_TYPE_SLUG ) {
                if ( file_exists( SEL_ROOT . '/view/templates/single-sel-event.php' ) ) {
-                   return SEL_ROOT . '/view/templates/single-sel-event.php';
+                   return include_once ( SEL_ROOT . '/view/templates/single-sel-event.php' ) ;
                }
             }
 

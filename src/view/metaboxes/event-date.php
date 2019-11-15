@@ -6,8 +6,7 @@
 <input type="text" id="to" name="sel_to" value="<?php echo !empty($date_value['sel_to']) ? $date_value['sel_to'] : '' ?>">
 <br />
 <label for="to">Time</label>
-<input type="text" id="time" name="sel_time" value="<?php echo !empty($date_value['sel_time']) ? $date_value['sel_time'] : '' ?>">>
-
+<input type="text" id="time" name="sel_time" value="<?php echo !empty($date_value['sel_time']) ? $date_value['sel_time'] : '' ?>">
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         var dateFormat = "dd-mm-yy";

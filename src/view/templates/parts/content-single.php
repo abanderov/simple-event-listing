@@ -12,6 +12,16 @@
 	</header>
 
 	<div class="entry-content">
+		<p>
+			<?php include_once( SEL_ROOT . '/view/templates/parts/event-date-time-section.php' ); ?>
+		</p>
+
+			<?php if ( ! empty($url_value) ){ ?>
+				<p>
+					URL: <a href="<?php echo $url_value; ?>" target="_blank"><?php echo $url_value; ?></a>
+				</p>
+			<?php } ?>
+
 		<?php
 		the_content(
 			sprintf(
@@ -27,6 +37,8 @@
 				get_the_title()
 			)
 		);
+
+		include_once( SEL_ROOT . '/view/templates/parts/google-maps-section.php' );
 
 		wp_link_pages(
 			array(

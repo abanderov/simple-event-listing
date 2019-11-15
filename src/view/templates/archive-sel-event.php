@@ -5,36 +5,54 @@ Template Name: Simpe Event Listing Single Event
 get_header();
 ?>
 
-	<section id="primary" class="content-area">
-		<main id="main" class="site-main">
+<section id="primary" class="content-area">
+	<main id="main" class="site-main">
 
+	<?php if ( have_posts() ) : ?>
+
+		<header class="page-header">
 			<?php
-
-			/* Start the Loop */
-			while ( have_posts() ) :
-				the_post();
-
-				include_once( SEL_ROOT . '/view/templates/parts/content-single.php' );
-
-				if ( is_singular( 'sel-event' ) ) {
-					// Previous/next post navigation.
-					the_post_navigation(
-						array(
-							'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next Post', 'twentynineteen' ) . '</span> ' .
-								'<span class="screen-reader-text">' . __( 'Next post:', 'twentynineteen' ) . '</span> <br/>' .
-								'<span class="post-title">%title</span>',
-							'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous Post', 'twentynineteen' ) . '</span> ' .
-								'<span class="screen-reader-text">' . __( 'Previous post:', 'twentynineteen' ) . '</span> <br/>' .
-								'<span class="post-title">%title</span>',
-						)
-					);
-				}
-
-			endwhile; // End of the loop.
+				the_archive_title( '<h1 class="page-title">', '</h1>' );
 			?>
+		</header><!-- .page-header -->
 
-		</main><!-- #main -->
-	</section><!-- #primary -->
+		<?php
+
+		// Start the Loop.
+		global $query_string;
+
+		query_posts( array( // order the archive according to event date (new to old)
+		'post_type' => 'sel-event',
+		'posts_per_page' => 4,
+		'meta_key' => '_sel_start_date',
+		'orderby' => '_sel_start_date',
+		'order' => 'DESC',
+		    'meta_query' => array(
+		        array(
+		           'key' => '_sel_start_date',
+		       )
+			)
+		));
+
+		while ( have_posts() ) :
+			the_post();
+
+			include( SEL_ROOT . '/view/templates/parts/content-excerpt.php' );
+
+			// End the loop.
+		endwhile;
+
+		// Previous/next page navigation.
+		posts_nav_link();
+
+		// If no content, include the "No posts found" template.
+	else :
+		include( SEL_ROOT . '/view/templates/parts/content-none.php' );
+
+	endif;
+	?>
+	</main><!-- #main -->
+</section><!-- #primary -->
 
 <?php
 get_footer();

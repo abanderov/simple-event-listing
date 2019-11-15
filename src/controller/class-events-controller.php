@@ -123,13 +123,14 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             }
 
             $date_data = array(
-                'sel_to' => ! empty( $_POST['sel_to']) ? sanitize_text_field( $_POST['sel_to'] ) : '',
-                'sel_from' => ! empty( $_POST['sel_from']) ? sanitize_text_field( $_POST['sel_from'] ) : '',
-                'sel_start_time' => ! empty( $_POST['sel_start_time']) ? sanitize_text_field( $_POST['sel_start_time'] ) : '',
-                'sel_end_time' => ! empty( $_POST['sel_end_time']) ? sanitize_text_field( $_POST['sel_end_time'] ) : '',
+                'sel_to' => ! empty( $_POST['sel_to'] ) ? sanitize_text_field( $_POST['sel_to'] ) : '',
+                'sel_from' => ! empty( $_POST['sel_from'] ) ? sanitize_text_field( $_POST['sel_from'] ) : '',
+                'sel_start_time' => ! empty( $_POST['sel_start_time'] ) ? sanitize_text_field( $_POST['sel_start_time'] ) : '',
+                'sel_end_time' => ! empty( $_POST['sel_end_time'] ) ? sanitize_text_field( $_POST['sel_end_time'] ) : '',
             );
 
             update_post_meta( $post_id, '_sel_date', $date_data );
+            update_post_meta( $post_id, '_sel_start_date', strtotime( $_POST['sel_from'] ) );
         }
 
         public static function save_ext_url_meta_box_data( $post_id ) {
@@ -256,6 +257,7 @@ if ( ! class_exists( 'Events_Controller' ) ) {
                 'edit_item'          => __( 'Edit '    . self::POST_TYPE_NAME ),
                 'view_item'          => __( 'View '    . self::POST_TYPE_NAME ),
                 'all_items'          => __( 'All '     . self::POST_TYPE_NAME . 's' ),
+                'archives'           => __( self::POST_TYPE_NAME . 's' . 'Archives' ),
                 'search_items'       => __( 'Search '  . self::POST_TYPE_NAME . 's' ),
                 'parent_item_colon'  => __( 'Parent '  . self::POST_TYPE_NAME . 's:' ),
                 'not_found'          => __( 'No ' . mb_strtolower( self::POST_TYPE_NAME ) . 's found.' ), //mb_stringtolower because of unicode chars

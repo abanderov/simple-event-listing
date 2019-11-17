@@ -1,6 +1,6 @@
 <?php
-/*
-Template Name: Simpe Event Listing Single Event
+/**
+ * Template Name: Single Event Page
 */
 get_header();
 ?>

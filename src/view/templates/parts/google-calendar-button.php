@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Template part for displaying Google Calendar for an event
+ *
+ */
 $calendar_url =
     'https://www.google.com/calendar/render?action=TEMPLATE'.
     '&text=' . str_replace( ' ', '+', $post->post_title ) .

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template part for displaying the header of the post
+ * Template part for displaying the header of the event
  *
  */
 

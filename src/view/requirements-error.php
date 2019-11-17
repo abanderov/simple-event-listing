@@ -1,3 +1,9 @@
+<?php
+/**
+ * Template part for displaying error message in the admin area
+ *
+ */
+?>
 <div class="error">
 	<p><?php echo PLUGIN_NAME; ?> error: Your environment doesn't meet all of the system requirements listed below.</p>
 

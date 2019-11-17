@@ -1,6 +1,6 @@
 <?php
-/*
-Template Name: Simpe Event Listing Single Event
+/**
+ * Template Name: Archive Page
 */
 get_header();
 ?>

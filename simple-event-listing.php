@@ -4,7 +4,6 @@
   Author:           Aleksandar Banderov
   Description:      A simple event listing plugin for WordPress
   Version:          1.0
-  Domain Path:      /languages
 */
 
 declare( strict_types = 1 );

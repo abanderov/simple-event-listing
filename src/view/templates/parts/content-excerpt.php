@@ -2,10 +2,9 @@
 /**
  * Template part for displaying post archives and search results
  */
-
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
 	<header class="entry-header">
 		<?php
 		$date_value = get_post_meta( get_the_ID(), '_sel_date', true );

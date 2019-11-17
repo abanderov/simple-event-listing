@@ -1,5 +1,8 @@
-
 <?php
+/**
+ * Template part for displaying the location, date, and time for an event
+ *
+ */
 	$location_value = get_post_meta( get_the_ID(), '_sel_location', true );
 	$date_value = get_post_meta( get_the_ID(), '_sel_date', true );
 	$url_value = get_post_meta( get_the_ID(), '_sel_ext_url', true );

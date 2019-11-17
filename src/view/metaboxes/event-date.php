@@ -1,3 +1,9 @@
+<?php
+/**
+ * Template part for event's date/time metabox
+ *
+ */
+?>
 <label>From</label>
 <br/>
 <input type="text" id="from" name="sel_from" value="<?php echo !empty($date_value['sel_from']) ? $date_value['sel_from'] : '' ?>">
@@ -22,9 +28,10 @@
                       defaultDate: "+1w",
                       changeMonth: true,
                       numberOfMonths: 2
-                    }).on( "change", function() {
-                      to.datepicker( "option", "minDate", $( this ).val() );
-                    });
+                }).on( "change", function() {
+                    to.datepicker( "option", "minDate", $( this ).val() );
+                });
+
         var to = $( "#to" ).datepicker({
                     dateFormat: dateFormat,
                     defaultDate: "+1w",

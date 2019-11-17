@@ -9,10 +9,10 @@ if ( ! class_exists( 'Events_Controller' ) ) {
     class Events_Controller {
 
         const POST_TYPE_NAME    = 'Event';
-      	const POST_TYPE_SLUG    = 'sel-event'; //add prefix in order to avoid conflict with other plugins adding events as a custom post type
+        //add prefix in order to avoid conflict with other plugins adding events as a custom post type
+      	const POST_TYPE_SLUG    = 'sel-event';
       	const TAG_NAME          = 'Event';
-      	const TAG_SLUG          = 'sel-event'; //the same reason applies here as well
-        //const PLUGIN_TEXTDOMAIN =  SEL_DIR . '/languages';
+      	const TAG_SLUG          = 'sel-event';
 
         private static $instance;
 
@@ -44,8 +44,8 @@ if ( ! class_exists( 'Events_Controller' ) ) {
         }
 
         public function activate() {
-            $this->create_post_type();
-            $this->create_taxonomies();
+            self::create_post_type();
+            self::create_taxonomies();
 
             flush_rewrite_rules();
         }
@@ -85,8 +85,7 @@ if ( ! class_exists( 'Events_Controller' ) ) {
                     return;
                 }
 
-            }
-            else {
+            } else {
 
                 if ( ! current_user_can( 'edit_post', $post_id ) ) {
                     return;
@@ -114,9 +113,7 @@ if ( ! class_exists( 'Events_Controller' ) ) {
                     return;
                 }
 
-            }
-            else {
-
+            } else {
                 if ( ! current_user_can( 'edit_post', $post_id ) ) {
                     return;
                 }
@@ -145,8 +142,7 @@ if ( ! class_exists( 'Events_Controller' ) ) {
                     return;
                 }
 
-            }
-            else {
+            } else {
 
                 if ( ! current_user_can( 'edit_post', $post_id ) ) {
                     return;
@@ -231,7 +227,6 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             }
 
             return $single;
-
         }
 
         public static function load_custom_template_single_archive( $archive_template ) {
@@ -260,8 +255,9 @@ if ( ! class_exists( 'Events_Controller' ) ) {
                 'archives'           => __( self::POST_TYPE_NAME . 's' . 'Archives' ),
                 'search_items'       => __( 'Search '  . self::POST_TYPE_NAME . 's' ),
                 'parent_item_colon'  => __( 'Parent '  . self::POST_TYPE_NAME . 's:' ),
-                'not_found'          => __( 'No ' . mb_strtolower( self::POST_TYPE_NAME ) . 's found.' ), //mb_stringtolower because of unicode chars
-                'not_found_in_trash' => __( 'No ' . mb_strtolower( self::POST_TYPE_NAME ) .'s found in Trash.' ) //mb_stringtolower because of unicode chars
+                //mb_stringtolower because of unicode chars
+                'not_found'          => __( 'No ' . mb_strtolower( self::POST_TYPE_NAME ) . 's found.' ),
+                'not_found_in_trash' => __( 'No ' . mb_strtolower( self::POST_TYPE_NAME ) .'s found in Trash.' )
     		);
 
             $post_type_args = array(
@@ -281,20 +277,18 @@ if ( ! class_exists( 'Events_Controller' ) ) {
             );
 
             return $post_type_args;
-
         }
 
         protected static function get_taxonomy_args() {
             $tag_taxonomy_params = array(
-                'label'                 => self::TAG_NAME . 's\' tags',
-                'labels'                => array( 'name' => self::TAG_NAME . 's\' tags', 'singular_name' => self::TAG_NAME . 'tag'),
+                'label'                 => 'Tags',
+                'labels'                => array( 'name' => 'Tags', 'singular_name' => 'Tag'),
                 'hierarchical'          => true,
                 'rewrite'               => false,
                 'update_count_callback' => '_update_post_term_count'
             );
 
             return $tag_taxonomy_params;
-
         }
 
     }

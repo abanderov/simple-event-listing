@@ -1,3 +1,9 @@
+<?php
+/**
+ * Template part for event's location metabox
+ *
+ */
+?>
 <div class="input-group">
     <label>Name</label>
     <br />
